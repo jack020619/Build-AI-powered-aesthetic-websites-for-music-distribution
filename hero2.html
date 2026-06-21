@@ -147,7 +147,7 @@ scene.add(new THREE.AmbientLight(0x6677aa, 0.85));
 const sun = new THREE.DirectionalLight(0xfff2e0, 1.5);
 sun.position.set(0.7, 1.1, 2.6); scene.add(sun);
 
-// Earth — load the texture through a <canvas> (the same reliable path the music notes use)
+// Earth — load the texture through a <canvas> (reliable path), then apply it
 const earthMat = new THREE.MeshPhongMaterial({ color: 0x1b3a5a, emissive: 0x000000, shininess: 14, specular: new THREE.Color(0x335577) });
 const earth = new THREE.Mesh(new THREE.SphereGeometry(R, 96, 96), earthMat);
 earth.rotation.z = 0.41;
@@ -165,7 +165,7 @@ eimg.onload = ()=>{
   earthMat.needsUpdate = true;
 };
 eimg.onerror = ()=>{ earthMat.color = new THREE.Color(0x2a4d8f); earthMat.needsUpdate = true; };
-eimg.src = 'assets/earth.jpg';
+eimg.src = 'assets/earth_blue.jpg?v=1';
 
 // soft blue atmosphere halo (gentle glow, not a hard ring)
 const atm = new THREE.Mesh(new THREE.SphereGeometry(R,64,64), new THREE.ShaderMaterial({
@@ -188,7 +188,7 @@ function ll(lat, lon, r=R){
 }
 function noteTex(glyph){
   const c=document.createElement('canvas');c.width=c.height=128;const x=c.getContext('2d');
-  x.shadowColor='#c8ff3d';x.shadowBlur=22;x.fillStyle='#e3ff7a';
+  x.shadowColor='#cfe6ff';x.shadowBlur=24;x.fillStyle='#ffffff';
   x.font='bold 96px Arial';x.textAlign='center';x.textBaseline='middle';x.fillText(glyph,64,72);
   const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;
 }
@@ -221,8 +221,8 @@ function arcLine(a,b,color,opacity){const curve=arcCurve(a,b);globe.add(new THRE
 const hubTargets=['ny','london','sao','lagos','tokyo','sydney','berlin','la','moscow','sing','joburg','mexico','dubai','seoul','paris','cairo','toronto','jakarta','nairobi'];
 const links=[['ny','london'],['london','berlin'],['ny','sao'],['tokyo','sydney'],['la','mexico'],['moscow','seoul'],['lagos','joburg'],['dubai','sing'],['berlin','moscow'],['sao','lagos'],['paris','cairo'],['toronto','ny'],['jakarta','sydney'],['nairobi','dubai'],['seoul','tokyo']];
 const routes=[];
-hubTargets.forEach(k=> routes.push({curve:arcLine('india',k,0xc8ff3d,0.5), hub:true}));
-links.forEach(([a,b])=> routes.push({curve:arcLine(a,b,0x77b6ff,0.2), hub:false}));
+hubTargets.forEach(k=> routes.push({curve:arcCurve('india',k), hub:true}));   // lines hidden — only symbols fly
+links.forEach(([a,b])=> routes.push({curve:arcCurve(a,b), hub:false}));
 
 // 120+ music symbols streaming along the routes
 const travelers=[];
@@ -237,12 +237,12 @@ routes.forEach((rt,ri)=>{
 });
 
 // city dots — India largest & brightest
-Object.keys(C).forEach(k=> makeDot(k, k==='india'?'#c8ff3d':'#add4ff', k==='india'?0.34:0.11));
+Object.keys(C).forEach(k=> makeDot(k, k==='india'?'#ffffff':'#9fd0ff', k==='india'?0.34:0.11));
 
-// orient so India faces the camera
+// start with India facing the camera, then auto-rotate from there
 const hubDir = ll(C.india.lat, C.india.lon, 1);
-const yaw = Math.atan2(hubDir.x, hubDir.z);
-earth.rotation.y = -yaw; globe.rotation.y = -yaw;
+const baseYaw = -Math.atan2(hubDir.x, hubDir.z);
+earth.rotation.y = baseYaw; globe.rotation.y = baseYaw;
 
 // controls
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -253,6 +253,7 @@ controls.autoRotate=false;
 const clock=new THREE.Clock();
 function tick(){
   const t=clock.getElapsedTime();
+  if(!reduce){ const spin=baseYaw+t*0.045; earth.rotation.y=spin; globe.rotation.y=spin; }
   if(dotSprites.india) dotSprites.india.scale.setScalar(0.34+0.07*Math.sin(t*3));
   for(let i=0;i<travelers.length;i++){
     const o=travelers[i], tt=((t*o.speed)+o.phase)%1;
