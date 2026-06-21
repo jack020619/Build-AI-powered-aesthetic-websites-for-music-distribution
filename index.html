@@ -75,8 +75,7 @@ header.nav{position:sticky;top:0;z-index:60;backdrop-filter:blur(16px);backgroun
 header.nav.scrolled{background:rgba(6,7,10,.92);box-shadow:0 10px 40px -20px #000}
 .nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
 .logo{display:flex;align-items:center;gap:.6rem;font-family:"Space Grotesk";font-weight:700;font-size:1.2rem}
-.logo .mark{width:32px;height:32px;border-radius:10px;background:radial-gradient(circle at 30% 30%,#fff,var(--lime) 60%,var(--lime-d));display:grid;place-items:center;box-shadow:0 0 20px -2px var(--lime)}
-.logo .mark::after{content:"";width:11px;height:11px;border-radius:50%;background:#06070a}
+.logo .mark{height:26px;width:auto;color:#fff;filter:drop-shadow(0 0 7px rgba(200,255,61,.45))}
 .navlinks{display:flex;gap:2rem;align-items:center}
 .navlinks a{font-size:.93rem;color:var(--muted);font-weight:500;transition:.15s}
 .navlinks a:hover{color:var(--txt)}
@@ -298,7 +297,7 @@ footer{border-top:1px solid var(--line);padding:72px 0 40px;background:rgba(8,9,
 <!-- NAV -->
 <header class="nav" id="nav">
   <div class="wrap nav-in">
-    <a class="logo" href="/"><span class="mark"></span>Six<span class="g-lime">Eyes</span></a>
+    <a class="logo" href="/"><svg class="mark" viewBox="0 0 84 52" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 30C26 8 56 8 80 24"/><path d="M7 31C26 46 54 46 78 30"/><path d="M61 12 73 4"/><path d="M69 17 81 11"/><circle cx="34" cy="27" r="7" fill="currentColor" stroke="none"/><circle cx="31.5" cy="24.5" r="2" fill="#06070a" stroke="none"/></svg>Six<span class="g-lime">Eyes</span></a>
     <nav class="navlinks">
       <a href="#features">Features</a><a href="#releases">Releases</a><a href="#how">How it works</a><a href="#compare">Compare</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a>
     </nav>
@@ -510,7 +509,7 @@ footer{border-top:1px solid var(--line);padding:72px 0 40px;background:rgba(8,9,
 <footer>
   <div class="wrap">
     <div class="fgrid">
-      <div class="fcol"><a class="logo" href="/" style="margin-bottom:16px"><span class="mark"></span>Six<span class="g-lime">Eyes</span></a><p class="muted" style="font-size:.92rem;max-width:25em">Free global music distribution for independent artists and labels. Release everywhere, keep 100% of your royalties.</p></div>
+      <div class="fcol"><a class="logo" href="/" style="margin-bottom:16px"><svg class="mark" viewBox="0 0 84 52" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 30C26 8 56 8 80 24"/><path d="M7 31C26 46 54 46 78 30"/><path d="M61 12 73 4"/><path d="M69 17 81 11"/><circle cx="34" cy="27" r="7" fill="currentColor" stroke="none"/><circle cx="31.5" cy="24.5" r="2" fill="#06070a" stroke="none"/></svg>Six<span class="g-lime">Eyes</span></a><p class="muted" style="font-size:.92rem;max-width:25em">Free global music distribution for independent artists and labels. Release everywhere, keep 100% of your royalties.</p></div>
       <div class="fcol"><h4>Product</h4><a href="/features/">Features</a><a href="/distribution/platforms/">Distribution</a><a href="/pricing/">Pricing</a><a href="/royalties/">Royalties</a></div>
       <div class="fcol"><h4>Learn</h4><a href="/academy/">Academy</a><a href="/blog/">Blog</a><a href="/blog/how-to-release-a-single/">Release a single</a><a href="/blog/spotify-pre-save/">Spotify pre-saves</a></div>
       <div class="fcol"><h4>Compare</h4><a href="/compare/distrokid/">vs DistroKid</a><a href="/compare/tunecore/">vs TuneCore</a><a href="/compare/cd-baby/">vs CD Baby</a></div>

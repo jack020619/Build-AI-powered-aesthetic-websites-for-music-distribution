@@ -57,8 +57,7 @@ h1{font-family:"Space Grotesk",sans-serif;margin:0}
 /* ===== nav ===== */
 .nav{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;width:100%;padding:24px}
 .logo{display:flex;align-items:center;gap:.6rem;font-family:"Space Grotesk";font-weight:700;font-size:1.2rem}
-.logo .mark{width:32px;height:32px;border-radius:10px;background:radial-gradient(circle at 30% 30%,#fff,var(--lime) 60%,var(--lime-d));display:grid;place-items:center;box-shadow:0 0 22px -2px var(--lime)}
-.logo .mark::after{content:"";width:11px;height:11px;border-radius:50%;background:#06070a}
+.logo .mark{height:26px;width:auto;color:#fff;filter:drop-shadow(0 0 7px rgba(200,255,61,.45))}
 .logo .g{background:linear-gradient(100deg,var(--lime),#eaff8f);-webkit-background-clip:text;background-clip:text;color:transparent}
 .nlinks{display:flex;gap:1.9rem}
 .nlinks a{font-size:.92rem;color:var(--muted);font-weight:500;transition:.15s}
@@ -137,7 +136,7 @@ h1 .l2{display:block;font-style:italic;opacity:0;animation:rise .9s .3s forwards
 
   <!-- nav -->
   <nav class="nav">
-    <a class="logo" href="#"><span class="mark"></span>Six<span class="g">Eyes</span></a>
+    <a class="logo" href="#"><svg class="mark" viewBox="0 0 84 52" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 30C26 8 56 8 80 24"/><path d="M7 31C26 46 54 46 78 30"/><path d="M61 12 73 4"/><path d="M69 17 81 11"/><circle cx="34" cy="27" r="7" fill="currentColor" stroke="none"/><circle cx="31.5" cy="24.5" r="2" fill="#06070a" stroke="none"/></svg>Six<span class="g">Eyes</span></a>
     <div class="nlinks">
       <a href="#">Features</a><a href="#">Pricing</a><a href="#">Distribution</a><a href="#">Royalties</a><a href="#">Academy</a>
     </div>
