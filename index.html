@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Six Eyes — Free Global Music Distribution for Independent Artists</title>
+<meta name="description" content="Distribute your music to 150+ platforms including Spotify, Apple Music, TikTok and YouTube. Keep 100% of your royalties, get paid from $5, go live in 24–48 hours. Start free, no card required." />
+<link rel="canonical" href="https://six-eyes.com/" />
+
+<!-- Open Graph / social -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Six Eyes — Free Global Music Distribution" />
+<meta property="og:description" content="Release to 150+ platforms, keep 100% of your royalties, get paid from $5. Start free." />
+<meta property="og:url" content="https://six-eyes.com/" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<!-- ============================================================
+     GEO / AI VISIBILITY: structured data so AI engines can cite
+     accurate entities, offers and FAQs about Six Eyes.
+     ============================================================ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Six Eyes Music Distribution",
+  "url": "https://six-eyes.com/",
+  "description": "Global music distribution platform that releases independent artists' music to 150+ streaming services while letting them keep 100% of their royalties.",
+  "sameAs": [
+    "https://x.com/sixeyes",
+    "https://instagram.com/sixeyes",
+    "https://youtube.com/@sixeyes",
+    "https://linkedin.com/company/sixeyes"
+  ],
+  "makesOffer": [
+    {"@type":"Offer","name":"Starter","price":"0","priceCurrency":"USD","description":"Free music distribution, keep 80% royalties."},
+    {"@type":"Offer","name":"Pro Artist","price":"1.99","priceCurrency":"USD","description":"Keep 100% royalties, 24–48h delivery, advanced tools."},
+    {"@type":"Offer","name":"Label","price":"4.99","priceCurrency":"USD","description":"Multi-artist management, API access, dedicated support."}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"How much does Six Eyes cost?","acceptedAnswer":{"@type":"Answer","text":"Six Eyes is free to start. The Starter plan costs $0 forever and keeps 80% of royalties. Pro Artist is $1.99/month and Label is $4.99/month; both keep 100% of royalties."}},
+    {"@type":"Question","name":"How many platforms does Six Eyes distribute to?","acceptedAnswer":{"@type":"Answer","text":"Six Eyes distributes your music to 150+ stores and streaming services including Spotify, Apple Music, TikTok, YouTube Music and Amazon Music."}},
+    {"@type":"Question","name":"How fast does my music go live?","acceptedAnswer":{"@type":"Answer","text":"Releases typically go live on major platforms within 24–48 hours on paid plans."}},
+    {"@type":"Question","name":"Do I keep ownership of my music?","acceptedAnswer":{"@type":"Answer","text":"Yes. You keep 100% ownership of your masters and publishing rights. Six Eyes never claims ownership of your music."}},
+    {"@type":"Question","name":"What is the minimum payout?","acceptedAnswer":{"@type":"Answer","text":"You can withdraw your earnings starting at just $5, far below the $25+ minimum charged by many competitors."}}
+  ]
+}
+</script>
+
+<style>
+  :root{
+    --bg:#07070b;
+    --bg-soft:#0c0c14;
+    --panel:#11111c;
+    --panel-2:#15152460;
+    --line:#23233a;
+    --txt:#eef0f7;
+    --muted:#9aa0b6;
+    --muted-2:#6e7390;
+    --brand:#7b5cff;     /* violet */
+    --brand-2:#ff4d9d;   /* magenta */
+    --accent:#22e3c3;    /* cyan/mint */
+    --radius:18px;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--txt);
+    font-family:"Inter",system-ui,sans-serif;line-height:1.6;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  h1,h2,h3,h4,.display{font-family:"Sora",sans-serif;line-height:1.1;letter-spacing:-.02em;font-weight:700}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .eyebrow{font-size:.8rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .muted{color:var(--muted)}
+  .grad-text{background:linear-gradient(100deg,var(--brand) 0%,var(--brand-2) 55%,var(--accent) 110%);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;gap:.55rem;font-weight:600;font-family:"Sora";font-size:.95rem;
+    padding:.85rem 1.4rem;border-radius:999px;border:1px solid transparent;cursor:pointer;transition:.2s;white-space:nowrap}
+  .btn-primary{background:linear-gradient(100deg,var(--brand),var(--brand-2));color:#fff;box-shadow:0 8px 30px -8px rgba(123,92,255,.6)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 38px -8px rgba(255,77,157,.55)}
+  .btn-ghost{background:#ffffff08;border-color:var(--line);color:var(--txt)}
+  .btn-ghost:hover{background:#ffffff12;border-color:#3a3a5c}
+
+  /* Nav */
+  header.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+    background:rgba(7,7,11,.72);border-bottom:1px solid var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .logo{display:flex;align-items:center;gap:.6rem;font-family:"Sora";font-weight:800;font-size:1.15rem;letter-spacing:-.02em}
+  .logo .dot{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--brand),var(--brand-2));
+    display:grid;place-items:center;box-shadow:0 0 22px -4px var(--brand)}
+  .navlinks{display:flex;gap:1.7rem;align-items:center}
+  .navlinks a{font-size:.92rem;color:var(--muted);font-weight:500;transition:.15s}
+  .navlinks a:hover{color:var(--txt)}
+  .nav-cta{display:flex;gap:.7rem;align-items:center}
+  .menu-btn{display:none;background:none;border:0;color:var(--txt);cursor:pointer}
+
+  /* Hero */
+  .hero{position:relative;padding:84px 0 60px;overflow:hidden}
+  .glow{position:absolute;inset:0;pointer-events:none;z-index:0}
+  .glow::before{content:"";position:absolute;top:-160px;left:50%;transform:translateX(-55%);
+    width:760px;height:760px;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(123,92,255,.30),transparent 70%);filter:blur(10px)}
+  .glow::after{content:"";position:absolute;top:40px;right:-120px;width:520px;height:520px;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(255,77,157,.18),transparent 70%)}
+  .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+  .badge{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem .8rem;border:1px solid var(--line);
+    border-radius:999px;background:var(--panel-2);font-size:.82rem;color:var(--muted);margin-bottom:22px}
+  .badge b{color:var(--txt);font-weight:600}
+  .hero h1{font-size:clamp(2.5rem,5.2vw,4rem);font-weight:800;margin:0 0 18px}
+  .hero p.sub{font-size:1.12rem;color:var(--muted);max-width:30em;margin:0 0 28px}
+  .hero-cta{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:22px}
+  .microproof{display:flex;align-items:center;gap:.6rem;color:var(--muted-2);font-size:.86rem}
+  .stars{color:#ffc24b;letter-spacing:2px}
+
+  /* Hero visual card */
+  .player{position:relative;background:linear-gradient(160deg,var(--panel),#0b0b16);
+    border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 30px 80px -30px #000}
+  .player .row{display:flex;align-items:center;gap:14px}
+  .cover{width:74px;height:74px;border-radius:14px;background:
+    conic-gradient(from 200deg,var(--brand),var(--brand-2),var(--accent),var(--brand));flex:none;position:relative;overflow:hidden}
+  .cover::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 30%,#fff3,transparent 45%)}
+  .track-t{font-family:"Sora";font-weight:700;font-size:1.05rem}
+  .track-s{color:var(--muted);font-size:.85rem}
+  .wave{display:flex;align-items:flex-end;gap:3px;height:46px;margin:18px 0 14px}
+  .wave span{flex:1;background:linear-gradient(var(--brand),var(--brand-2));border-radius:3px;opacity:.85;animation:eq 1.4s ease-in-out infinite}
+  @keyframes eq{0%,100%{height:22%}50%{height:100%}}
+  .liverow{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:14px;font-size:.82rem;color:var(--muted)}
+  .pill{display:inline-flex;align-items:center;gap:.4rem;background:#22e3c31a;color:var(--accent);
+    padding:.25rem .6rem;border-radius:999px;font-weight:600}
+  .pdot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+
+  /* Logo strip */
+  .platforms{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:54px;padding:26px 0;background:var(--bg-soft)}
+  .platforms .wrap{display:flex;align-items:center;gap:26px;flex-wrap:wrap;justify-content:center}
+  .platforms .lbl{color:var(--muted-2);font-size:.82rem;font-weight:600}
+  .pf{color:#c7cbe0;font-family:"Sora";font-weight:700;font-size:1.02rem;opacity:.8}
+
+  /* Sections */
+  section{padding:84px 0}
+  .sec-head{max-width:40rem;margin-bottom:46px}
+  .sec-head h2{font-size:clamp(1.8rem,3.4vw,2.6rem);margin:.5rem 0 14px}
+  .sec-head p{color:var(--muted);font-size:1.05rem;margin:0}
+
+  /* Steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .step{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+  .step .n{font-family:"Sora";font-weight:800;font-size:.9rem;color:var(--brand-2)}
+  .step h3{font-size:1.25rem;margin:14px 0 8px}
+  .step p{color:var(--muted);margin:0;font-size:.96rem}
+  .step .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;
+    background:#7b5cff14;border:1px solid #7b5cff33;margin-bottom:6px}
+
+  /* Feature bento */
+  .bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:18px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;transition:.2s}
+  .card:hover{border-color:#39395e;transform:translateY(-3px)}
+  .card h3{font-size:1.12rem;margin:14px 0 8px}
+  .card p{color:var(--muted);font-size:.92rem;margin:0}
+  .card.span2{grid-column:span 2}
+  .ic-sm{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;background:#15152a;border:1px solid var(--line)}
+  .ic-sm svg{stroke:var(--accent)}
+
+  /* Trust band */
+  .trust{background:linear-gradient(180deg,#0a0a12,#0e0e1a);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+  .stat .big{font-family:"Sora";font-weight:800;font-size:clamp(1.8rem,4vw,2.7rem)}
+  .stat .lbl{color:var(--muted);font-size:.9rem;margin-top:4px}
+
+  /* Pricing */
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+  .plan{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:30px;display:flex;flex-direction:column}
+  .plan.feat{border-color:#7b5cff;background:linear-gradient(180deg,#14122a,#0e0e1a);box-shadow:0 20px 60px -28px var(--brand)}
+  .plan .tag{font-family:"Sora";font-weight:700;font-size:1.05rem}
+  .plan .price{font-family:"Sora";font-weight:800;font-size:2.3rem;margin:10px 0 2px}
+  .plan .price small{font-size:.9rem;color:var(--muted);font-weight:500}
+  .plan ul{list-style:none;padding:0;margin:18px 0 24px;display:grid;gap:10px}
+  .plan li{display:flex;gap:.6rem;color:var(--muted);font-size:.93rem}
+  .plan li svg{flex:none;margin-top:3px;stroke:var(--accent)}
+  .plan .btn{margin-top:auto;justify-content:center;width:100%}
+  .ribbon{align-self:flex-start;background:var(--brand);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;padding:.25rem .65rem;border-radius:999px;margin-bottom:8px}
+
+  /* Comparison teaser */
+  .compare{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;
+    background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:40px}
+  .ctable{width:100%;border-collapse:collapse;font-size:.92rem}
+  .ctable th,.ctable td{padding:12px 10px;text-align:left;border-bottom:1px solid var(--line)}
+  .ctable th{color:var(--muted);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em}
+  .ctable td.us{color:var(--accent);font-weight:600}
+  .ctable td.them{color:var(--muted-2)}
+
+  /* FAQ */
+  .faq{max-width:780px;margin:0 auto}
+  details{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:4px 22px;margin-bottom:12px}
+  details summary{cursor:pointer;list-style:none;font-family:"Sora";font-weight:600;font-size:1.04rem;padding:16px 0;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+  details summary::-webkit-details-marker{display:none}
+  details summary .chev{transition:.2s;color:var(--brand-2);flex:none}
+  details[open] summary .chev{transform:rotate(45deg)}
+  details p{color:var(--muted);margin:0 0 18px;font-size:.96rem}
+
+  /* CTA */
+  .cta-final{position:relative;text-align:center;background:linear-gradient(135deg,#16122e,#0c0c18);
+    border:1px solid var(--line);border-radius:28px;padding:64px 28px;overflow:hidden}
+  .cta-final::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);
+    width:600px;height:300px;background:radial-gradient(closest-side,rgba(255,77,157,.22),transparent);filter:blur(8px)}
+  .cta-final h2{position:relative;font-size:clamp(2rem,4vw,3rem);margin:0 0 14px}
+  .cta-final p{position:relative;color:var(--muted);max-width:34em;margin:0 auto 28px;font-size:1.08rem}
+
+  /* Footer (internal-link SEO cluster) */
+  footer{border-top:1px solid var(--line);padding:64px 0 36px;background:var(--bg-soft)}
+  .fgrid{display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:32px}
+  .fcol h4{font-size:.82rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted-2);margin:0 0 16px}
+  .fcol a{display:block;color:var(--muted);font-size:.92rem;margin-bottom:10px;transition:.15s}
+  .fcol a:hover{color:var(--txt)}
+  .fbottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+    border-top:1px solid var(--line);margin-top:44px;padding-top:24px;color:var(--muted-2);font-size:.85rem}
+
+  /* Responsive */
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:36px}
+    .steps,.bento,.plans,.stats{grid-template-columns:1fr 1fr}
+    .card.span2{grid-column:span 2}
+    .compare{grid-template-columns:1fr}
+    .fgrid{grid-template-columns:1fr 1fr}
+    .navlinks{display:none}
+    .menu-btn{display:block}
+  }
+  @media(max-width:560px){
+    .steps,.bento,.plans,.stats,.fgrid{grid-template-columns:1fr}
+    .card.span2{grid-column:span 1}
+    .hero{padding:54px 0 40px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="/">
+      <span class="dot">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="#fff"/></svg>
+      </span>
+      Six<span class="grad-text">EYES</span>
+    </a>
+    <nav class="navlinks">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#compare">Compare</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost" style="padding:.6rem 1.1rem">Log in</a>
+      <a href="#pricing" class="btn btn-primary" style="padding:.6rem 1.2rem">Start free</a>
+      <button class="menu-btn" aria-label="Menu"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="glow"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="badge">🎧 <b>50,000+</b> artists already releasing with Six Eyes</span>
+      <h1>Release your music <span class="grad-text">everywhere.</span><br/>Keep every cent.</h1>
+      <p class="sub">Distribute to 150+ platforms — Spotify, Apple Music, TikTok, YouTube — keep 100% of your royalties, and get paid from just $5. Live in 24–48 hours.</p>
+      <div class="hero-cta">
+        <a href="#pricing" class="btn btn-primary">Start free — no card required
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#how" class="btn btn-ghost">See how it works</a>
+      </div>
+      <div class="microproof"><span class="stars">★★★★★</span> 4.9/5 from independent artists · No commission, ever</div>
+    </div>
+
+    <!-- Live-release visual: signals the music niche immediately -->
+    <div class="player">
+      <div class="row">
+        <div class="cover"></div>
+        <div>
+          <div class="track-t">Midnight Frequencies</div>
+          <div class="track-s">by AYRA · Single</div>
+        </div>
+      </div>
+      <div class="wave">
+        <span style="animation-delay:0s"></span><span style="animation-delay:.1s"></span><span style="animation-delay:.2s"></span>
+        <span style="animation-delay:.3s"></span><span style="animation-delay:.15s"></span><span style="animation-delay:.25s"></span>
+        <span style="animation-delay:.35s"></span><span style="animation-delay:.05s"></span><span style="animation-delay:.2s"></span>
+        <span style="animation-delay:.3s"></span><span style="animation-delay:.1s"></span><span style="animation-delay:.22s"></span>
+        <span style="animation-delay:.32s"></span><span style="animation-delay:.12s"></span><span style="animation-delay:.28s"></span>
+        <span style="animation-delay:.18s"></span><span style="animation-delay:.08s"></span><span style="animation-delay:.26s"></span>
+      </div>
+      <div class="liverow">
+        <span class="pill"><span class="pdot"></span> Live on 150+ stores</span>
+        <span>+128,540 streams this week</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLATFORM STRIP ============ -->
+<div class="platforms">
+  <div class="wrap">
+    <span class="lbl">DELIVERED TO 150+ STORES</span>
+    <span class="pf">Spotify</span><span class="pf">Apple&nbsp;Music</span><span class="pf">TikTok</span>
+    <span class="pf">YouTube&nbsp;Music</span><span class="pf">Amazon</span><span class="pf">Deezer</span><span class="pf">Tidal</span>
+  </div>
+</div>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">From upload to payout</span>
+      <h2>Three steps. Then you just make music.</h2>
+      <p>No gatekeepers, no waiting weeks. Get your release out and start earning — the rest runs on autopilot.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7b5cff" stroke-width="2"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></svg></div>
+        <div class="n">STEP 01</div>
+        <h3>Upload your track</h3>
+        <p>Drop your audio and artwork. We auto-generate your ISRC &amp; UPC codes and check it's store-ready.</p>
+      </div>
+      <div class="step">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7b5cff" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg></div>
+        <div class="n">STEP 02</div>
+        <h3>Distribute worldwide</h3>
+        <p>One click sends your music to 150+ platforms. Schedule the date, set pre-saves, and go live in 24–48h.</p>
+      </div>
+      <div class="step">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7b5cff" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="n">STEP 03</div>
+        <h3>Get paid — keep 100%</h3>
+        <p>Track streams in real time, split royalties with collaborators automatically, and withdraw from just $5.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES (BENTO) ============ -->
+<section id="features" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Built for working artists</span>
+      <h2>Everything you need to grow — nothing you don't.</h2>
+      <p>The tools major labels use, without the cut or the contract.</p>
+    </div>
+    <div class="bento">
+      <div class="card span2">
+        <div class="ic-sm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 3v18h18M7 14l3-3 3 3 5-6"/></svg></div>
+        <h3>Real-time analytics</h3>
+        <p>Daily streams, revenue and audience broken down by platform, country and playlist — so you know exactly what's working and where to tour next.</p>
+      </div>
+      <div class="card">
+        <div class="ic-sm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="11" r="2.5"/><path d="M3 20a6 6 0 0 1 12 0M14 20a5 5 0 0 1 7 0"/></svg></div>
+        <h3>Automatic royalty splits</h3>
+        <p>Pay collaborators instantly — no spreadsheets, no manual transfers.</p>
+      </div>
+      <div class="card">
+        <div class="ic-sm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg></div>
+        <h3>YouTube Content ID</h3>
+        <p>Protect your sound and monetize every use across YouTube automatically.</p>
+      </div>
+      <div class="card">
+        <div class="ic-sm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></div>
+        <h3>Smart links &amp; pre-saves</h3>
+        <p>One link to every store, plus pre-save campaigns that convert fans before release day.</p>
+      </div>
+      <div class="card span2">
+        <div class="ic-sm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <h3>Real human support, 24/7</h3>
+        <p>Talk to actual music people — not chatbots — whenever you need them. Most artists hear back in minutes, not days.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST BAND ============ -->
+<section class="trust">
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><div class="big grad-text">50K+</div><div class="lbl">Independent artists</div></div>
+      <div class="stat"><div class="big grad-text">150+</div><div class="lbl">Stores &amp; platforms</div></div>
+      <div class="stat"><div class="big grad-text">100%</div><div class="lbl">Royalties kept</div></div>
+      <div class="stat"><div class="big grad-text">$5</div><div class="lbl">Minimum payout</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head" style="margin-left:auto;margin-right:auto;text-align:center">
+      <span class="eyebrow">Simple, honest pricing</span>
+      <h2>Start free. Upgrade only when you're ready.</h2>
+      <p style="margin-left:auto;margin-right:auto">No commission on your royalties. No hidden fees. Cancel anytime.</p>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <div class="tag">Starter</div>
+        <div class="price">$0<small> / forever</small></div>
+        <p class="muted" style="font-size:.9rem;margin:0">For artists releasing their first songs.</p>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Distribute to 150+ platforms</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Keep 80% of royalties</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Basic analytics &amp; email support</li>
+        </ul>
+        <a href="#" class="btn btn-ghost">Get started free</a>
+      </div>
+      <div class="plan feat">
+        <span class="ribbon">Most popular</span>
+        <div class="tag">Pro Artist</div>
+        <div class="price">$1.99<small> / mo</small></div>
+        <p class="muted" style="font-size:.9rem;margin:0">For artists building a real career.</p>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg><b style="color:var(--txt)">Keep 100% of royalties</b></li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Live in 24–48 hours</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Advanced analytics, splits &amp; Content ID</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Pre-saves &amp; smart links</li>
+        </ul>
+        <a href="#" class="btn btn-primary">Start Pro</a>
+      </div>
+      <div class="plan">
+        <div class="tag">Label</div>
+        <div class="price">$4.99<small> / mo</small></div>
+        <p class="muted" style="font-size:.9rem;margin:0">For labels &amp; multi-artist teams.</p>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Everything in Pro</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Multi-artist management</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>API access &amp; dedicated support</li>
+        </ul>
+        <a href="#" class="btn btn-ghost">Talk to us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARISON TEASER ============ -->
+<section id="compare" style="padding-top:20px">
+  <div class="wrap">
+    <div class="compare">
+      <div>
+        <span class="eyebrow">Why artists switch</span>
+        <h2 style="font-size:clamp(1.6rem,3vw,2.2rem);margin:.5rem 0 14px">More money in your pocket than DistroKid or TuneCore.</h2>
+        <p class="muted" style="margin:0 0 22px">Same global reach, none of the commission games. See exactly what you keep — and what you'd lose elsewhere.</p>
+        <a href="#" class="btn btn-primary">See the full comparison
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <table class="ctable">
+        <thead><tr><th>Feature</th><th>Six&nbsp;Eyes</th><th>Others</th></tr></thead>
+        <tbody>
+          <tr><td>Royalties kept</td><td class="us">100%</td><td class="them">85–91%</td></tr>
+          <tr><td>Minimum payout</td><td class="us">$5</td><td class="them">$25+</td></tr>
+          <tr><td>Free plan</td><td class="us">Yes</td><td class="them">Rare</td></tr>
+          <tr><td>Human support 24/7</td><td class="us">Yes</td><td class="them">Bots</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head" style="margin-left:auto;margin-right:auto;text-align:center">
+      <span class="eyebrow">Answers</span>
+      <h2>Frequently asked questions</h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>How much does Six Eyes cost? <span class="chev">+</span></summary>
+        <p>Six Eyes is free to start — the Starter plan is $0 forever and keeps 80% of royalties. Pro Artist is $1.99/month and Label is $4.99/month; both let you keep 100% of your royalties with no commission.</p>
+      </details>
+      <details>
+        <summary>How many platforms do you distribute to? <span class="chev">+</span></summary>
+        <p>We deliver your music to 150+ stores and streaming services, including Spotify, Apple Music, TikTok, YouTube Music, Amazon Music, Deezer and Tidal.</p>
+      </details>
+      <details>
+        <summary>How fast does my music go live? <span class="chev">+</span></summary>
+        <p>Releases typically go live on the major platforms within 24–48 hours on paid plans. You can also schedule a future release date and run pre-save campaigns ahead of it.</p>
+      </details>
+      <details>
+        <summary>Do I keep ownership of my music? <span class="chev">+</span></summary>
+        <p>Always. You keep 100% ownership of your masters and publishing rights. Six Eyes never claims any ownership of your music.</p>
+      </details>
+      <details>
+        <summary>What's the minimum to withdraw my earnings? <span class="chev">+</span></summary>
+        <p>You can withdraw starting at just $5 — far below the $25+ minimum many competitors require — so you get paid sooner.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section style="padding-top:20px">
+  <div class="wrap">
+    <div class="cta-final">
+      <h2>Your next release deserves a bigger stage.</h2>
+      <p>Join 50,000+ independent artists distributing worldwide with Six Eyes. Start free in minutes — keep 100% of what you earn.</p>
+      <a href="#pricing" class="btn btn-primary" style="position:relative;font-size:1.05rem;padding:1rem 1.8rem">Start distributing — free
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER (internal-link SEO cluster) ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fcol">
+        <a class="logo" href="/" style="font-size:1.15rem;margin-bottom:14px">
+          <span class="dot"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="#fff"/></svg></span>
+          Six<span class="grad-text">EYES</span>
+        </a>
+        <p class="muted" style="font-size:.9rem;max-width:24em">Free global music distribution for independent artists and labels. Release everywhere, keep 100% of your royalties.</p>
+      </div>
+      <div class="fcol">
+        <h4>Product</h4>
+        <a href="/features/">Features</a>
+        <a href="/distribution/platforms/">Distribution</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/royalties/">Royalties</a>
+      </div>
+      <div class="fcol">
+        <h4>Learn</h4>
+        <a href="/academy/">Academy</a>
+        <a href="/blog/">Blog</a>
+        <a href="/blog/how-to-release-a-single/">How to release a single</a>
+        <a href="/blog/spotify-pre-save/">Spotify pre-saves</a>
+      </div>
+      <div class="fcol">
+        <h4>Compare</h4>
+        <a href="/compare/distrokid/">vs DistroKid</a>
+        <a href="/compare/tunecore/">vs TuneCore</a>
+        <a href="/compare/cd-baby/">vs CD Baby</a>
+      </div>
+      <div class="fcol">
+        <h4>Company</h4>
+        <a href="/about-us/">About us</a>
+        <a href="/help/">Help center</a>
+        <a href="/contact/">Contact</a>
+      </div>
+    </div>
+    <div class="fbottom">
+      <span>© 2026 Six Eyes Music Distribution. All rights reserved.</span>
+      <span>Privacy · Terms · <a href="/llms.txt" style="color:var(--accent)">/llms.txt</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
