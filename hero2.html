@@ -131,88 +131,117 @@ import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/cont
 const mount = document.getElementById('globe');
 const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
 let W = mount.clientWidth, H = mount.clientHeight;
+const R = 1.55;
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(42, W/H, 0.1, 100);
-camera.position.set(0, 0.3, 5.2);
+camera.position.set(0, 0.35, 5.2);
 
 const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(W, H);
 mount.appendChild(renderer.domElement);
 
-// lights — give a realistic lit / dark terminator
-scene.add(new THREE.AmbientLight(0x3a4a66, 0.85));
-const sun = new THREE.DirectionalLight(0xfff4e0, 1.45);
-sun.position.set(-3, 1.6, 2.5);
-scene.add(sun);
+// lights
+scene.add(new THREE.AmbientLight(0x6f86b0, 1.05));
+const sun = new THREE.DirectionalLight(0xfff4e0, 1.5);
+sun.position.set(-2.4, 1.4, 3); scene.add(sun);
 
-// Earth
+// Earth — map for lit side + emissiveMap so it stays visible & textured everywhere
 const tex = new THREE.TextureLoader().load('assets/earth.jpg');
 tex.colorSpace = THREE.SRGBColorSpace;
 const earth = new THREE.Mesh(
-  new THREE.SphereGeometry(1.55, 72, 72),
-  new THREE.MeshPhongMaterial({ map: tex, shininess: 6, specular: new THREE.Color(0x223344) })
+  new THREE.SphereGeometry(R, 96, 96),
+  new THREE.MeshPhongMaterial({ map: tex, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 0.32, shininess: 8, specular: new THREE.Color(0x2a3a4a) })
 );
-earth.rotation.z = 0.41; // axial tilt
+earth.rotation.z = 0.41;
 scene.add(earth);
 
-// atmosphere rim glow (fresnel, additive)
+// subtle atmosphere rim
 const atm = new THREE.Mesh(
-  new THREE.SphereGeometry(1.55, 72, 72),
+  new THREE.SphereGeometry(R, 64, 64),
   new THREE.ShaderMaterial({
     transparent:true, blending:THREE.AdditiveBlending, side:THREE.BackSide, depthWrite:false,
-    vertexShader:`varying float i;void main(){vec3 n=normalize(normalMatrix*normal);vec3 v=normalize((modelViewMatrix*vec4(position,1.0)).xyz);i=pow(1.0+dot(n,v),2.4);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
-    fragmentShader:`varying float i;void main(){gl_FragColor=vec4(0.36,0.56,1.0,1.0)*i;}`
+    vertexShader:`varying float i;void main(){vec3 n=normalize(normalMatrix*normal);vec3 v=normalize((modelViewMatrix*vec4(position,1.0)).xyz);i=pow(0.95+dot(n,v),3.0);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+    fragmentShader:`varying float i;void main(){gl_FragColor=vec4(0.30,0.50,1.0,1.0)*min(i,1.2)*0.75;}`
   })
 );
-atm.scale.setScalar(1.16);
-scene.add(atm);
+atm.scale.setScalar(1.14); scene.add(atm);
 
-// orbiting music-note sprites (true 3D, occluded by the globe)
-function noteTexture(glyph){
+// lat/lon -> point on globe (matches standard equirectangular earth.jpg)
+function ll(lat, lon, r=R){
+  const phi=(90-lat)*Math.PI/180, theta=(lon+180)*Math.PI/180;
+  return new THREE.Vector3(-r*Math.sin(phi)*Math.cos(theta), r*Math.cos(phi), r*Math.sin(phi)*Math.sin(theta));
+}
+function noteTex(glyph){
   const c=document.createElement('canvas');c.width=c.height=128;const x=c.getContext('2d');
-  x.shadowColor='#c8ff3d';x.shadowBlur=20;x.fillStyle='#dcff6b';
-  x.font='bold 92px Arial';x.textAlign='center';x.textBaseline='middle';x.fillText(glyph,64,70);
+  x.shadowColor='#c8ff3d';x.shadowBlur=22;x.fillStyle='#e3ff7a';
+  x.font='bold 96px Arial';x.textAlign='center';x.textBaseline='middle';x.fillText(glyph,64,72);
   const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;
 }
-const notes = [
-  {g:'♪', r:2.25, tilt: 0.5,  speed:0.5,  phase:0,    s:0.5},
-  {g:'♫', r:2.45, tilt:-0.35, speed:0.38, phase:2.1,  s:0.46},
-  {g:'♬', r:2.15, tilt: 0.9,  speed:0.62, phase:4.0,  s:0.42}
+function dotTex(col){
+  const c=document.createElement('canvas');c.width=c.height=128;const x=c.getContext('2d');
+  const g=x.createRadialGradient(64,64,0,64,64,64);g.addColorStop(0,col);g.addColorStop(.4,col);g.addColorStop(1,'rgba(0,0,0,0)');
+  x.fillStyle=g;x.beginPath();x.arc(64,64,64,0,7);x.fill();
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;
+}
+
+// everything that "sticks" to the surface goes in a group that rotates with the Earth
+const globe = new THREE.Group(); globe.rotation.copy(earth.rotation); scene.add(globe);
+
+const INDIA = {lat:22.6, lon:79};
+const DESTS = [
+  {lat:40.7,lon:-74},  {lat:51.5,lon:-0.1}, {lat:-23.5,lon:-46.6},{lat:6.5,lon:3.4},
+  {lat:35.7,lon:139.7},{lat:-33.9,lon:151.2},{lat:52.5,lon:13.4},{lat:34,lon:-118.2},
+  {lat:55.8,lon:37.6}, {lat:1.35,lon:103.8},{lat:-26.2,lon:28},  {lat:19.4,lon:-99.1}
 ];
-const sprites = notes.map(n=>{
-  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:noteTexture(n.g),transparent:true,depthTest:true,depthWrite:false}));
-  sp.scale.setScalar(n.s); scene.add(sp); return sp;
+const glyphs=['♪','♫','♬'];
+
+// India hub glow
+const hub = new THREE.Sprite(new THREE.SpriteMaterial({map:dotTex('#c8ff3d'),transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));
+hub.position.copy(ll(INDIA.lat,INDIA.lon,R*1.01)); hub.scale.setScalar(0.34); globe.add(hub);
+
+// build arcs from India + a traveling note on each
+const arcs = DESTS.map((d,i)=>{
+  const a=ll(INDIA.lat,INDIA.lon,R*1.012), b=ll(d.lat,d.lon,R*1.012);
+  const mid=a.clone().add(b).multiplyScalar(0.5);
+  mid.normalize().multiplyScalar(R + a.distanceTo(b)*0.55 + 0.15);
+  const curve=new THREE.QuadraticBezierCurve3(a,mid,b);
+  const line=new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(curve.getPoints(64)),
+    new THREE.LineBasicMaterial({color:0xc8ff3d,transparent:true,opacity:0.28,blending:THREE.AdditiveBlending,depthWrite:false})
+  );
+  globe.add(line);
+  const note=new THREE.Sprite(new THREE.SpriteMaterial({map:noteTex(glyphs[i%3]),transparent:true,depthWrite:false}));
+  note.scale.setScalar(0.3); globe.add(note);
+  return {curve, note, speed:0.18+(i%4)*0.04, phase:i/DESTS.length};
 });
 
-// controls — drag to rotate, gentle damping
+// controls
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableZoom = false; controls.enablePan = false;
-controls.enableDamping = true; controls.dampingFactor = 0.08;
-controls.rotateSpeed = 0.5;
-controls.minPolarAngle = Math.PI*0.28; controls.maxPolarAngle = Math.PI*0.72;
-controls.autoRotate = false;
+controls.enableZoom=false; controls.enablePan=false; controls.enableDamping=true; controls.dampingFactor=0.08;
+controls.rotateSpeed=0.5; controls.minPolarAngle=Math.PI*0.26; controls.maxPolarAngle=Math.PI*0.74;
+controls.autoRotate=false;
 
-const clock = new THREE.Clock();
+const clock=new THREE.Clock();
 function tick(){
-  const dt = clock.getDelta(), t = clock.elapsedTime;
-  if(!reduce) earth.rotation.y += dt*0.06;        // slow self-spin
-  notes.forEach((n,k)=>{
-    const a = t*n.speed + n.phase;
-    const x = n.r*Math.cos(a), z = n.r*Math.sin(a);
-    const y = z*Math.sin(n.tilt), zz = z*Math.cos(n.tilt);
-    sprites[k].position.set(x, y, zz);
+  const dt=clock.getDelta(), t=clock.elapsedTime;
+  if(!reduce){ earth.rotation.y+=dt*0.05; globe.rotation.y=earth.rotation.y; }
+  hub.scale.setScalar(0.30+0.06*Math.sin(t*3));
+  arcs.forEach(o=>{
+    const tt=((t*o.speed)+o.phase)%1;
+    o.note.position.copy(o.curve.getPoint(tt));
+    o.note.material.opacity=Math.sin(tt*Math.PI);   // emit from India, fade at arrival
   });
   controls.update();
-  renderer.render(scene, camera);
+  renderer.render(scene,camera);
   requestAnimationFrame(tick);
 }
 tick();
 
 addEventListener('resize', ()=>{
-  W = mount.clientWidth; H = mount.clientHeight;
-  camera.aspect = W/H; camera.updateProjectionMatrix(); renderer.setSize(W, H);
+  W=mount.clientWidth; H=mount.clientHeight;
+  camera.aspect=W/H; camera.updateProjectionMatrix(); renderer.setSize(W,H);
 });
 </script>
 </body>
