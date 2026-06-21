@@ -64,10 +64,10 @@ h1{font-family:"Space Grotesk",sans-serif;margin:0;font-weight:700}
 .trust svg{stroke:var(--lime)}
 
 /* 3D globe mount */
-.visual{position:relative;display:grid;place-items:center;min-height:540px}
-.vglow{position:absolute;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle, rgba(91,157,255,.28), rgba(139,92,255,.14) 42%, transparent 70%);filter:blur(8px);pointer-events:none;animation:breathe 7s ease-in-out infinite}
+.visual{position:relative;display:grid;place-items:center;min-height:680px}
+.vglow{position:absolute;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle, rgba(91,157,255,.22), rgba(139,92,255,.12) 42%, transparent 70%);filter:blur(10px);pointer-events:none;animation:breathe 7s ease-in-out infinite}
 @keyframes breathe{50%{transform:scale(1.05);opacity:.85}}
-#globe{position:relative;z-index:2;width:100%;height:540px;cursor:grab}
+#globe{position:relative;z-index:2;width:100%;height:680px;cursor:grab}
 #globe:active{cursor:grabbing}
 .hint{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);z-index:3;font-size:.74rem;color:var(--muted2);letter-spacing:.04em;display:inline-flex;align-items:center;gap:.4rem;pointer-events:none;opacity:.8}
 
@@ -135,38 +135,30 @@ const R = 1.55;
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(42, W/H, 0.1, 100);
-camera.position.set(0, 0.35, 5.2);
+camera.position.set(0, 0.35, 6.8);
 
 const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(W, H);
 mount.appendChild(renderer.domElement);
 
-// lights
-scene.add(new THREE.AmbientLight(0x6f86b0, 1.05));
-const sun = new THREE.DirectionalLight(0xfff4e0, 1.5);
+// lights — bright enough that the whole globe is clearly visible
+scene.add(new THREE.AmbientLight(0xb4c2da, 1.25));
+const sun = new THREE.DirectionalLight(0xfff4e0, 1.05);
 sun.position.set(-2.4, 1.4, 3); scene.add(sun);
 
-// Earth — map for lit side + emissiveMap so it stays visible & textured everywhere
-const tex = new THREE.TextureLoader().load('assets/earth.jpg');
+// Earth — power-of-two texture, defensive flags so it always renders (no black)
+const tex = new THREE.TextureLoader().load('assets/earth.jpg', ()=>{ renderer.render(scene,camera); });
 tex.colorSpace = THREE.SRGBColorSpace;
+tex.minFilter = THREE.LinearFilter;
+tex.generateMipmaps = false;
+tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
 const earth = new THREE.Mesh(
   new THREE.SphereGeometry(R, 96, 96),
-  new THREE.MeshPhongMaterial({ map: tex, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 0.32, shininess: 8, specular: new THREE.Color(0x2a3a4a) })
+  new THREE.MeshPhongMaterial({ map: tex, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 0.28, shininess: 12, specular: new THREE.Color(0x223344) })
 );
 earth.rotation.z = 0.41;
 scene.add(earth);
-
-// subtle atmosphere rim
-const atm = new THREE.Mesh(
-  new THREE.SphereGeometry(R, 64, 64),
-  new THREE.ShaderMaterial({
-    transparent:true, blending:THREE.AdditiveBlending, side:THREE.BackSide, depthWrite:false,
-    vertexShader:`varying float i;void main(){vec3 n=normalize(normalMatrix*normal);vec3 v=normalize((modelViewMatrix*vec4(position,1.0)).xyz);i=pow(0.95+dot(n,v),3.0);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
-    fragmentShader:`varying float i;void main(){gl_FragColor=vec4(0.30,0.50,1.0,1.0)*min(i,1.2)*0.75;}`
-  })
-);
-atm.scale.setScalar(1.14); scene.add(atm);
 
 // lat/lon -> point on globe (matches standard equirectangular earth.jpg)
 function ll(lat, lon, r=R){
@@ -205,7 +197,7 @@ hub.position.copy(ll(INDIA.lat,INDIA.lon,R*1.01)); hub.scale.setScalar(0.34); gl
 const arcs = DESTS.map((d,i)=>{
   const a=ll(INDIA.lat,INDIA.lon,R*1.012), b=ll(d.lat,d.lon,R*1.012);
   const mid=a.clone().add(b).multiplyScalar(0.5);
-  mid.normalize().multiplyScalar(R + a.distanceTo(b)*0.55 + 0.15);
+  mid.normalize().multiplyScalar(R + a.distanceTo(b)*0.26 + 0.08);
   const curve=new THREE.QuadraticBezierCurve3(a,mid,b);
   const line=new THREE.Line(
     new THREE.BufferGeometry().setFromPoints(curve.getPoints(64)),
