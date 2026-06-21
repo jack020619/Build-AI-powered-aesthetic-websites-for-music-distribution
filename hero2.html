@@ -147,18 +147,25 @@ scene.add(new THREE.AmbientLight(0xb4c2da, 1.25));
 const sun = new THREE.DirectionalLight(0xfff4e0, 1.05);
 sun.position.set(-2.4, 1.4, 3); scene.add(sun);
 
-// Earth — power-of-two texture, defensive flags so it always renders (no black)
-const tex = new THREE.TextureLoader().load('assets/earth.jpg', ()=>{ renderer.render(scene,camera); });
-tex.colorSpace = THREE.SRGBColorSpace;
-tex.minFilter = THREE.LinearFilter;
-tex.generateMipmaps = false;
-tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-const earth = new THREE.Mesh(
-  new THREE.SphereGeometry(R, 96, 96),
-  new THREE.MeshPhongMaterial({ map: tex, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 0.28, shininess: 12, specular: new THREE.Color(0x223344) })
-);
+// Earth — load the texture through a <canvas> (the same reliable path the music notes use)
+const earthMat = new THREE.MeshPhongMaterial({ color: 0x1b3a5a, emissive: 0x000000, shininess: 14, specular: new THREE.Color(0x335577) });
+const earth = new THREE.Mesh(new THREE.SphereGeometry(R, 96, 96), earthMat);
 earth.rotation.z = 0.41;
 scene.add(earth);
+const eimg = new Image();
+eimg.onload = ()=>{
+  const cv = document.createElement('canvas'); cv.width = 2048; cv.height = 1024;
+  cv.getContext('2d').drawImage(eimg, 0, 0, 2048, 1024);
+  const ctex = new THREE.CanvasTexture(cv);
+  ctex.colorSpace = THREE.SRGBColorSpace;
+  ctex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  earthMat.map = ctex;
+  earthMat.color = new THREE.Color(0xffffff);
+  earthMat.emissive = new THREE.Color(0xffffff); earthMat.emissiveMap = ctex; earthMat.emissiveIntensity = 0.22;
+  earthMat.needsUpdate = true;
+};
+eimg.onerror = ()=>{ earthMat.color = new THREE.Color(0x2a4d8f); earthMat.needsUpdate = true; };
+eimg.src = 'assets/earth.jpg';
 
 // lat/lon -> point on globe (matches standard equirectangular earth.jpg)
 function ll(lat, lon, r=R){
@@ -201,13 +208,18 @@ const arcs = DESTS.map((d,i)=>{
   const curve=new THREE.QuadraticBezierCurve3(a,mid,b);
   const line=new THREE.Line(
     new THREE.BufferGeometry().setFromPoints(curve.getPoints(64)),
-    new THREE.LineBasicMaterial({color:0xc8ff3d,transparent:true,opacity:0.28,blending:THREE.AdditiveBlending,depthWrite:false})
+    new THREE.LineBasicMaterial({color:0xc8ff3d,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false})
   );
   globe.add(line);
   const note=new THREE.Sprite(new THREE.SpriteMaterial({map:noteTex(glyphs[i%3]),transparent:true,depthWrite:false}));
-  note.scale.setScalar(0.3); globe.add(note);
+  note.scale.setScalar(0.34); globe.add(note);
   return {curve, note, speed:0.18+(i%4)*0.04, phase:i/DESTS.length};
 });
+
+// orient the globe so India (the hub) faces the camera, so all arcs are on the visible side
+const hubDir = ll(INDIA.lat, INDIA.lon, 1);
+const yaw = Math.atan2(hubDir.x, hubDir.z);
+earth.rotation.y = -yaw; globe.rotation.y = -yaw;
 
 // controls
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -217,8 +229,7 @@ controls.autoRotate=false;
 
 const clock=new THREE.Clock();
 function tick(){
-  const dt=clock.getDelta(), t=clock.elapsedTime;
-  if(!reduce){ earth.rotation.y+=dt*0.05; globe.rotation.y=earth.rotation.y; }
+  const t=clock.elapsedTime;
   hub.scale.setScalar(0.30+0.06*Math.sin(t*3));
   arcs.forEach(o=>{
     const tt=((t*o.speed)+o.phase)%1;
