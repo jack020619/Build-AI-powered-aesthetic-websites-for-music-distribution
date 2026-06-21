@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Six Eyes — Distribute Your Music Globally (Concept C)</title>
+<meta name="description" content="Distribute your music to 150+ platforms worldwide and keep 100% of your royalties." />
+<meta name="theme-color" content="#07060d" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#07060d; --txt:#f2f0fa; --muted:#a39fc0; --muted2:#6b6790;
+  --line:#221d3a; --line2:#332b54;
+  --violet:#8b5cff; --violet2:#b89bff; --lime:#c8ff3d;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:"Inter",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+h1{font-family:"Space Grotesk",sans-serif;margin:0;font-weight:700}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden;isolation:isolate}
+
+/* flowing dark background */
+.flow{position:absolute;inset:-25%;z-index:-4;background:
+  radial-gradient(38% 50% at 22% 28%, rgba(120,80,210,.30), transparent 62%),
+  radial-gradient(42% 46% at 80% 32%, rgba(74,60,160,.26), transparent 66%),
+  radial-gradient(46% 50% at 60% 88%, rgba(150,90,230,.20), transparent 60%);
+  filter:blur(34px);animation:flow 26s ease-in-out infinite}
+@keyframes flow{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-3%,2%) scale(1.07)}}
+.ridges{position:absolute;inset:0;z-index:-3;opacity:.05;
+  background:repeating-linear-gradient(122deg, #fff 0 1px, transparent 1px 46px);
+  -webkit-mask-image:radial-gradient(circle at 50% 42%, #000 10%, transparent 78%);
+  mask-image:radial-gradient(circle at 50% 42%, #000 10%, transparent 78%)}
+.vign{position:absolute;inset:0;z-index:-2;background:radial-gradient(120% 90% at 50% 36%, transparent 46%, rgba(7,6,13,.92) 100%)}
+.grain{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* nav */
+.nav{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;max-width:1240px;margin:0 auto;width:100%;padding:24px 32px}
+.logo{display:flex;align-items:center;gap:.55rem;font-family:"Space Grotesk";font-weight:700;font-size:1.18rem}
+.logo img{height:30px;width:auto}
+.logo .g{background:linear-gradient(100deg,var(--lime),#eaff8f);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nlinks{display:flex;gap:2.1rem}
+.nlinks a{font-size:.93rem;color:var(--muted);font-weight:500;transition:color .15s}
+.nlinks a:hover{color:#fff}
+.pill{display:inline-flex;align-items:center;gap:.5rem;font-family:"Space Grotesk";font-weight:600;border-radius:999px;cursor:pointer;transition:.22s}
+.nav .pill{font-size:.92rem;padding:.6rem 1.25rem;background:linear-gradient(100deg,var(--violet),#6f44ff);color:#fff;box-shadow:0 8px 26px -10px rgba(139,92,255,.7)}
+.nav .pill:hover{transform:translateY(-2px)}
+.menu{display:none;background:none;border:0;color:#fff;cursor:pointer}
+
+/* centered content */
+.inner{position:relative;z-index:4;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;max-width:1040px;margin:0 auto;padding:40px 24px 70px}
+.badge{display:inline-flex;align-items:center;gap:.55rem;padding:.5rem 1.05rem;border:1px solid var(--line2);border-radius:999px;
+  background:linear-gradient(180deg, rgba(139,92,255,.16), rgba(139,92,255,.04));
+  font-family:"Space Grotesk";font-size:.78rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--violet2);margin-bottom:32px}
+.badge svg{stroke:var(--violet2)}
+h1{font-size:clamp(2.8rem,8vw,6rem);line-height:.98;letter-spacing:-.02em;text-transform:uppercase}
+h1 .l2{display:block;background:linear-gradient(100deg,var(--violet) 0%,var(--violet2) 42%,var(--lime) 108%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{font-size:clamp(1.05rem,2.1vw,1.28rem);color:var(--muted);max-width:36rem;margin:28px auto 0;line-height:1.6}
+.sub b{color:#fff;font-weight:600}
+.cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:38px}
+.cta .lime{padding:1rem 1.7rem;font-size:1.02rem;background:var(--lime);color:#0a0c00;box-shadow:0 10px 30px -10px rgba(200,255,61,.6)}
+.cta .lime:hover{transform:translateY(-2px);background:#d6ff5e}
+.cta .ring{padding:1rem 1.7rem;font-size:1.02rem;color:#fff;background:rgba(139,92,255,.06);border:1px solid var(--violet);box-shadow:0 0 0 4px rgba(139,92,255,.1)}
+.cta .ring:hover{transform:translateY(-2px);background:rgba(139,92,255,.14)}
+.trust{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-top:26px;color:var(--muted2);font-size:.85rem}
+.trust span{display:inline-flex;align-items:center;gap:.4rem}.trust svg{stroke:var(--lime)}
+
+/* scroll indicator */
+.scroll{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:4;width:26px;height:42px;border:1px solid var(--line2);border-radius:999px;display:flex;justify-content:center;padding-top:7px}
+.scroll i{width:5px;height:8px;border-radius:3px;background:var(--violet2);animation:sd 1.6s ease-in-out infinite}
+@keyframes sd{0%{opacity:0;transform:translateY(-4px)}40%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
+
+.rise{opacity:0;transform:translateY(20px);animation:rise .8s cubic-bezier(.2,.8,.2,1) forwards}
+.d1{animation-delay:.05s}.d2{animation-delay:.16s}.d3{animation-delay:.28s}.d4{animation-delay:.4s}.d5{animation-delay:.52s}
+@keyframes rise{to{opacity:1;transform:none}}
+
+@media(max-width:860px){.nlinks,.nav .pill{display:none}.menu{display:block}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}.rise{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="flow"></div>
+  <div class="ridges"></div>
+  <div class="vign"></div>
+  <div class="grain"></div>
+
+  <nav class="nav">
+    <a class="logo" href="#"><img src="assets/logo.png" alt="Six Eyes"/>Six<span class="g">Eyes</span></a>
+    <div class="nlinks"><a href="#">Features</a><a href="#">Pricing</a><a href="#">Distribution</a><a href="#">Royalties</a><a href="#">Academy</a></div>
+    <a href="#" class="pill">Get Started <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <button type="button" class="menu" aria-label="Menu"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </nav>
+
+  <div class="inner">
+    <span class="badge rise d1">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"/></svg>
+      Trusted by 50,000+ artists
+    </span>
+    <h1>
+      <span class="rise d2">Distribute Your</span>
+      <span class="l2 rise d3">Music Globally</span>
+    </h1>
+    <p class="sub rise d4">Release to <b>Spotify, Apple Music, TikTok</b> and 150+ platforms worldwide. Keep <b>100% of your royalties</b>, get paid from <b>$5</b>, and go live in 24–48 hours.</p>
+    <div class="cta rise d5">
+      <a href="#" class="pill lime">Start Distributing — Free
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a0c00" stroke-width="2.3"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="#" class="pill ring">View Pricing</a>
+    </div>
+    <div class="trust rise d5">
+      <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> No card required</span>
+      <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> No commission, ever</span>
+      <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> Keep your masters</span>
+    </div>
+  </div>
+
+  <div class="scroll"><i></i></div>
+</section>
+</body>
+</html>
